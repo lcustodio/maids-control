@@ -1,0 +1,60 @@
+/*
+ * Copyright (c) 2014-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * base.css overrides
+ */
+
+/**
+ * We are not changing from display:none, but rather re-rendering instead.
+ * Therefore this needs to be displayed normally by default.
+ */
+#todo-list li .edit {
+  display: inline;
+}
+
+.progressBar {
+    width: 400px;
+    height: 50px;
+    border: 1px solid #111;
+    background-color: white;
+}
+
+.progressBar div {
+    height: 100%;
+    color: #fff;
+    text-align: right;
+    line-height: 22px; /* same as #progressBar height if we want text middle aligned */
+    width: 0;
+    background-color: green;
+}
+
+.icon {
+	width: 50px;
+	height: 50px;
+	border: 1px solid black;
+	text-align: center;
+	font-family: Verdana;
+	font-weight: bold;
+	font-size: 30px;
+}
+
+.add_input {
+	height: 50px;
+	width: 50px;
+}
+
+.add_button {
+	height: 50px;
+	width: 50px;
+}
+
+.undo_button {
+	height: 50px;
+	width: 50px;
+	text-align: center;
+}

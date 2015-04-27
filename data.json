@@ -1,0 +1,18 @@
+[
+    {
+        "201504": {
+              "joao" : {
+                  "totalPaid" : "45",
+                  "lastTotal" : "0"
+              },
+              "mari" : {
+                  "totalPaid" : "45",
+                  "lastTotal" : "0"
+              },
+              "deh" : {
+                  "totalPaid" : "45",
+                  "lastTotal" : "0"
+              }
+         }
+    }
+]
