@@ -37,18 +37,14 @@ var PersonItem = React.createClass({
     var personProgressId = this.props.id + '_progress';
 
     return (
-      <div className="row">
-        <div className="two columns">
+      <div className="row person-item">
+        <div className="twelve columns text-center">
           <div className="icon">
             {this.props.data.initial}
           </div>
-        </div>
-        <div className="five columns">
           <div id={personProgressId} className="progressBar">
             <div></div>
           </div>
-        </div>
-        <div className="five columns">
           <button onClick={this._onValueChange} className="add_button">+</button>
           <input ref="add_input" className="add_input" placeholder="R$"></input>
           <button onClick={this._onUndoChange} className="undo_button">U</button>

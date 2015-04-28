@@ -29959,18 +29959,14 @@ var PersonItem = React.createClass({displayName: "PersonItem",
     var personProgressId = this.props.id + '_progress';
 
     return (
-      React.createElement("div", {className: "row"}, 
-        React.createElement("div", {className: "two columns"}, 
+      React.createElement("div", {className: "row person-item"}, 
+        React.createElement("div", {className: "twelve columns text-center"}, 
           React.createElement("div", {className: "icon"}, 
             this.props.data.initial
-          )
-        ), 
-        React.createElement("div", {className: "five columns"}, 
+          ), 
           React.createElement("div", {id: personProgressId, className: "progressBar"}, 
             React.createElement("div", null)
-          )
-        ), 
-        React.createElement("div", {className: "five columns"}, 
+          ), 
           React.createElement("button", {onClick: this._onValueChange, className: "add_button"}, "+"), 
           React.createElement("input", {ref: "add_input", className: "add_input", placeholder: "R$"}), 
           React.createElement("button", {onClick: this._onUndoChange, className: "undo_button"}, "U")
