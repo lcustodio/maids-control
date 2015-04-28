@@ -1,10 +1,9 @@
 var React = require('react');
 var ReactPropTypes = React.PropTypes;
 
-var PaymentActions = require('../actions/PaymentActions');
-var ValueInput = require('./ValueInput.react');
+var $ = require('jquery');
 
-var cx = require('react/lib/cx');
+var PaymentActions = require('../actions/PaymentActions');
 
 function progress(value, $element) {
   var progressBarWidth = value * $element.width() / 173.333;
