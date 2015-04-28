@@ -20581,7 +20581,7 @@ var MaidControlApp = require('./components/MaidControlApp.react');
 
 React.render(
   React.createElement(MaidControlApp, null),
-  document.getElementById('todoapp')
+  document.getElementById('maidscontrol')
 );
 },{"./components/MaidControlApp.react":168,"react":163}],166:[function(require,module,exports){
 var React = require('react');
@@ -20641,8 +20641,8 @@ var Header = React.createClass({displayName: "Header",
    */
   render: function() {
     return (
-      React.createElement("header", {id: "header"}, 
-        React.createElement("h1", null, "Maid Control"), 
+      React.createElement("div", {id: "header"}, 
+        React.createElement("h1", null, "Maid's Control"), 
         React.createElement(ComboMonth, {
           id: "month_selection", 
           onSelectMonth: this._onSelectMonth})
@@ -20805,9 +20805,15 @@ var PersonItem = React.createClass({displayName: "PersonItem",
 
     return (
       React.createElement("div", {className: "row"}, 
-        React.createElement("div", {className: "two columns icon"}, this.props.data.initial), 
-        React.createElement("div", {id: personProgressId, className: "five columns progressBar"}, 
-          React.createElement("div", null)
+        React.createElement("div", {className: "two columns"}, 
+          React.createElement("div", {className: "icon"}, 
+            this.props.data.initial
+          )
+        ), 
+        React.createElement("div", {className: "five columns"}, 
+          React.createElement("div", {id: personProgressId, className: "progressBar"}, 
+            React.createElement("div", null)
+          )
         ), 
         React.createElement("div", {className: "five columns"}, 
           React.createElement("button", {onClick: this._onValueChange, className: "add_button"}, "+"), 

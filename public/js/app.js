@@ -13,5 +13,5 @@ var MaidControlApp = require('./components/MaidControlApp.react');
 
 React.render(
   <MaidControlApp />,
-  document.getElementById('todoapp')
+  document.getElementById('maidscontrol')
 );

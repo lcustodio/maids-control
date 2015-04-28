@@ -18,12 +18,12 @@ var Header = React.createClass({
    */
   render: function() {
     return (
-      <header id="header">
-        <h1>Maid Control</h1>
+      <div id="header">
+        <h1>Maid's Control</h1>
         <ComboMonth
           id="month_selection"
           onSelectMonth={this._onSelectMonth} />
-      </header>
+      </div>
     );
   },
 
