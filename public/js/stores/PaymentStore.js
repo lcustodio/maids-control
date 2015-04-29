@@ -12,17 +12,17 @@ var _payments = {
     201504: {
           joao: {
               initial: 'J',
-              totalPaid : 40,
+              totalPaid : 174,
               lastTotal : 0
           },
           mari: {
               initial: 'M',
-              totalPaid : 45,
+              totalPaid : 174,
               lastTotal : 0
           },
           deh: {
               initial: 'D',
-              totalPaid : 45,
+              totalPaid : 174,
               lastTotal : 0
           }
      }
@@ -49,8 +49,8 @@ function updatePayment(month, person, value) {
     return;
   }
   var structuredMonth = CURRENT_YEAR + "" + month;
-  _payments.structuredMonth.person.lastTotal = _payments.structuredMonth.person.totalPaid;
-  _payments.structuredMonth.person.totalPaid = value;
+  _payments[structuredMonth][person].lastTotal = _payments[structuredMonth][person].totalPaid;
+  _payments[structuredMonth][person].totalPaid = value;
 }
 
 /**
@@ -76,9 +76,9 @@ function addToTotal(month, person, valueToAdd) {
  */
 function undoChange(month, person) {
   var structuredMonth = CURRENT_YEAR + "" + month;
-  var totalPaid = _payments.structuredMonth.person.totalPaid
-  _payments.structuredMonth.person.totalPaid = _payments.structuredMonth.person.lastTotal;  
-  _payments.structuredMonth.person.lastTotal = totalPaid;
+  var totalPaid = _payments[structuredMonth][person].totalPaid
+  _payments[structuredMonth][person].totalPaid = _payments[structuredMonth][person].lastTotal;
+  _payments[structuredMonth][person].lastTotal = totalPaid;
 }
 
 

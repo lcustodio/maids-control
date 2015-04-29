@@ -7,8 +7,6 @@ body {
 button {
 	margin: 0;
 	padding: 0;
-	border: 0;
-	background: none;
 	font-size: 100%;
 	vertical-align: baseline;
 	font-family: inherit;
@@ -20,11 +18,13 @@ button {
 }
 
 body {
-	font: 14px Trebuchet;
+	font-size: 14px;
+	font-family: Lato, 'Helvetica Neue', Helvetica, sans-serif;
 	line-height: 1.4em;
 	color: #4d4d4d;
 	width: 550px;
 	margin: 0 auto;
+	background-color: #333;
 	-webkit-font-smoothing: antialiased;
 	-moz-font-smoothing: antialiased;
 	-ms-font-smoothing: antialiased;
@@ -54,19 +54,20 @@ body {
 	top: -85px;
 	width: 100%;
 	font-size: 40px;
-	font-weight: bold;
 	text-align: center;
-	color: #9DCF97;
-	-webkit-text-stroke: 2px #4d4d4d;
+	color: #FFF;
+	/*
+	-webkit-text-stroke: 1px #4d4d4d;
 	-webkit-text-rendering: optimizeLegibility;
 	-moz-text-rendering: optimizeLegibility;
-	-moz-text-stroke: 2px #4d4d4d;
+	-moz-text-stroke: 1px #4d4d4d;
 	-ms-text-rendering: optimizeLegibility;
-	-ms-text-stroke: 2px #4d4d4d;
+	-ms-text-stroke: 1px #4d4d4d;
 	-o-text-rendering: optimizeLegibility;
-	-o-text-stroke: 2px #4d4d4d;
+	-o-text-stroke: 1px #4d4d4d;
 	text-rendering: optimizeLegibility;
-	text-stroke: 2px #4d4d4d;
+	text-stroke: 1px #4d4d4d;
+	*/
 }
 
 #header {

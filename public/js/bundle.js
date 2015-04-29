@@ -29927,10 +29927,15 @@ var $ = require('jquery');
 
 var PaymentActions = require('../actions/PaymentActions');
 
-function progress(value, $element) {
-  var progressBarWidth = value * $element.width() / 173.333;
-  console.log(progressBarWidth);
-  $element.find('div').animate({ width: progressBarWidth }, 1000).html("R$ " + value + "&nbsp;");
+function progress(value, $element, maxForMonth) {
+  var progressBarWidth = value * $element.width() / maxForMonth-1;
+  var $progressDiv = $element.find('div');
+  if(value < 30){
+    $progressDiv.animate({ width: progressBarWidth }, 1000).attr("title", "R$ " + value);
+    $progressDiv.html("");
+  } else {
+    $progressDiv.animate({ width: progressBarWidth }, 1000).html("R$ " + value + "&nbsp;");
+  }
 }
 
 var PersonItem = React.createClass({displayName: "PersonItem",
@@ -29942,11 +29947,11 @@ var PersonItem = React.createClass({displayName: "PersonItem",
   },
 
   componentDidMount: function() {
-    progress(this.props.data.totalPaid, $('#' + this.props.id + '_progress'));
+    progress(this.props.data.totalPaid, $('#' + this.props.id + '_progress'), 174);
   },
 
   componentDidUpdate: function(){
-    progress(this.props.data.totalPaid, $('#' + this.props.id + '_progress'));
+    progress(this.props.data.totalPaid, $('#' + this.props.id + '_progress'), 174);
   },
 
   /**
@@ -29967,9 +29972,8 @@ var PersonItem = React.createClass({displayName: "PersonItem",
           React.createElement("div", {id: personProgressId, className: "progressBar"}, 
             React.createElement("div", null)
           ), 
-          React.createElement("button", {onClick: this._onValueChange, className: "add_button"}, "+"), 
-          React.createElement("input", {ref: "add_input", className: "add_input", placeholder: "R$"}), 
-          React.createElement("button", {onClick: this._onUndoChange, className: "undo_button"}, "U")
+          React.createElement("button", {onClick: this._onValueChange, className: "add_button"}, "Add R$"), 
+          React.createElement("input", {ref: "add_input", className: "add_input"})
         )
       )
     );
@@ -30015,17 +30019,17 @@ var _payments = {
     201504: {
           joao: {
               initial: 'J',
-              totalPaid : 40,
+              totalPaid : 174,
               lastTotal : 0
           },
           mari: {
               initial: 'M',
-              totalPaid : 45,
+              totalPaid : 174,
               lastTotal : 0
           },
           deh: {
               initial: 'D',
-              totalPaid : 45,
+              totalPaid : 174,
               lastTotal : 0
           }
      }
@@ -30052,8 +30056,8 @@ function updatePayment(month, person, value) {
     return;
   }
   var structuredMonth = CURRENT_YEAR + "" + month;
-  _payments.structuredMonth.person.lastTotal = _payments.structuredMonth.person.totalPaid;
-  _payments.structuredMonth.person.totalPaid = value;
+  _payments[structuredMonth][person].lastTotal = _payments[structuredMonth][person].totalPaid;
+  _payments[structuredMonth][person].totalPaid = value;
 }
 
 /**
@@ -30079,9 +30083,9 @@ function addToTotal(month, person, valueToAdd) {
  */
 function undoChange(month, person) {
   var structuredMonth = CURRENT_YEAR + "" + month;
-  var totalPaid = _payments.structuredMonth.person.totalPaid
-  _payments.structuredMonth.person.totalPaid = _payments.structuredMonth.person.lastTotal;  
-  _payments.structuredMonth.person.lastTotal = totalPaid;
+  var totalPaid = _payments[structuredMonth][person].totalPaid
+  _payments[structuredMonth][person].totalPaid = _payments[structuredMonth][person].lastTotal;
+  _payments[structuredMonth][person].lastTotal = totalPaid;
 }
 
 

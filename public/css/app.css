@@ -1,9 +1,10 @@
 .progressBar {
-    width: 55%;
+    width: 60%;
     height: 50px;
-    border: 2px solid #4d4d4d;
+    border: 1px solid #4d4d4d;
     background-color: white;
     float: left;
+    margin-left: 5px;
 }
 
 .progressBar div {
@@ -18,27 +19,32 @@
 .icon {
 	width: 10%;
 	height: 50px;
-	border: 2px solid #4d4d4d;
+	border: 1px solid #4d4d4d;
 	text-align: center;
-	font-family: Trebuchet;
-	font-weight: bold;
 	font-size: 30px;
+	/* 
 	border-top-left-radius: 15px;
-	border-bottom-left-radius: 15px;
-    background: #9DCF97;
+	border-bottom-left-radius: 15px; 
+	*/
+    background: #FFF;
     float: left;
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
+	line-height: 1.6;
 }
 
 .add_input {
-	height: 50px;
-	width: 8%;
+	height: 45px;
+	width: 45px;
 	float: left;
 }
 
 .add_button {
 	height: 50px;
-	width: 10%;
+	width: 15%;
 	float: left;
+	margin-left: 5px;
 }
 
 .undo_button {

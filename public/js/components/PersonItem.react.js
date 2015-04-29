@@ -5,10 +5,15 @@ var $ = require('jquery');
 
 var PaymentActions = require('../actions/PaymentActions');
 
-function progress(value, $element) {
-  var progressBarWidth = value * $element.width() / 173.333;
-  console.log(progressBarWidth);
-  $element.find('div').animate({ width: progressBarWidth }, 1000).html("R$ " + value + "&nbsp;");
+function progress(value, $element, maxForMonth) {
+  var progressBarWidth = value * $element.width() / maxForMonth-1;
+  var $progressDiv = $element.find('div');
+  if(value < 30){
+    $progressDiv.animate({ width: progressBarWidth }, 1000).attr("title", "R$ " + value);
+    $progressDiv.html("");
+  } else {
+    $progressDiv.animate({ width: progressBarWidth }, 1000).html("R$ " + value + "&nbsp;");
+  }
 }
 
 var PersonItem = React.createClass({
@@ -20,11 +25,11 @@ var PersonItem = React.createClass({
   },
 
   componentDidMount: function() {
-    progress(this.props.data.totalPaid, $('#' + this.props.id + '_progress'));
+    progress(this.props.data.totalPaid, $('#' + this.props.id + '_progress'), 174);
   },
 
   componentDidUpdate: function(){
-    progress(this.props.data.totalPaid, $('#' + this.props.id + '_progress'));
+    progress(this.props.data.totalPaid, $('#' + this.props.id + '_progress'), 174);
   },
 
   /**
@@ -45,9 +50,8 @@ var PersonItem = React.createClass({
           <div id={personProgressId} className="progressBar">
             <div></div>
           </div>
-          <button onClick={this._onValueChange} className="add_button">+</button>
-          <input ref="add_input" className="add_input" placeholder="R$"></input>
-          <button onClick={this._onUndoChange} className="undo_button">U</button>
+          <button onClick={this._onValueChange} className="add_button">Add R$</button>
+          <input ref="add_input" className="add_input"></input>
         </div>
       </div>
     );
