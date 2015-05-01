@@ -1,3 +1,13 @@
+.instructions_components {
+	margin-left: 15px;
+	width: 100%;
+}
+
+.instructions_components textarea {
+	width: 95%;
+	height: 200px;
+}
+
 .progressBar {
     width: 60%;
     height: 50px;

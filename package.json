@@ -5,6 +5,7 @@
   "repository": "https://github.com/jvmartins/maids-control.git",
   "main": "js/app.js",
   "dependencies": {
+    "body-parser": "^1.12.3",
     "express": "^4.12.3",
     "flux": "^2.0.1",
     "keymirror": "~0.1.0",

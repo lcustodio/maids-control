@@ -1,6 +1,6 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /**
- * Copyright (c) 2014-2015, Facebook, Inc.
+ * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
@@ -29721,7 +29721,7 @@ var PaymentActions = {
 
 module.exports = PaymentActions;
 
-},{"../constants/PaymentConstants":171,"../dispatcher/AppDispatcher":172}],165:[function(require,module,exports){
+},{"../constants/PaymentConstants":172,"../dispatcher/AppDispatcher":173}],165:[function(require,module,exports){
 /**
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -29734,12 +29734,18 @@ module.exports = PaymentActions;
 var React = require('react');
 
 var MaidControlApp = require('./components/MaidControlApp.react');
+var InstructionSection = require('./components/InstructionSection.react');
 
 React.render(
-  React.createElement(MaidControlApp, null),
-  document.getElementById('maidscontrol')
+  	React.createElement(MaidControlApp, null),
+  	document.getElementById('maidscontrol')
 );
-},{"./components/MaidControlApp.react":168,"react":163}],166:[function(require,module,exports){
+
+React.render(
+  	React.createElement(InstructionSection, null),
+  	document.getElementById('instructions')
+);
+},{"./components/InstructionSection.react":168,"./components/MaidControlApp.react":169,"react":163}],166:[function(require,module,exports){
 var React = require('react');
 var ReactPropTypes = React.PropTypes;
 
@@ -29821,9 +29827,60 @@ var Header = React.createClass({displayName: "Header",
 module.exports = Header;
 },{"../actions/PaymentActions":164,"./ComboMonth.react":166,"react":163}],168:[function(require,module,exports){
 var React = require('react');
+var $ = require('jquery');
+
+var InstructionSection = React.createClass({displayName: "InstructionSection",
+    render: function() {
+        return (
+            React.createElement("div", {className: "instructions_components"}, 
+                React.createElement("h5", null, "Instructions:"), 
+                React.createElement("textarea", {type: "text", ref: "instructions", onChange: this.handleChange, value: this.state.instructions}), 
+                React.createElement("button", {onClick: this._onSaveInstructions}, "Save")
+            )
+        );
+    },
+    getInitialState: function (){
+        $.ajax({
+            url: 'instructions',
+            contentType: 'text/plain',
+            dataType: 'text',
+            success: function(data) {
+                this.setState({instructions: data});
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error('instructions', status, err.toString());
+            }.bind(this)
+        });
+        return { instructions : "" };
+    },
+    _onSaveInstructions: function() {
+        $.ajax({
+            url: 'instructions',
+            contentType: 'text/plain',
+            dataType: 'text',
+            type: 'POST',
+            data: this.refs.instructions.getDOMNode().value,
+            success: function(data) {
+                console.log(data)
+                this.setState({instructions: data});
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error('instructions', status, err.toString());
+            }.bind(this)
+        });
+    },
+    handleChange: function() {
+        this.setState({instructions: this.refs.instructions.getDOMNode().value});
+    }
+});
+
+module.exports = InstructionSection;
+},{"jquery":6,"react":163}],169:[function(require,module,exports){
+var React = require('react');
 
 var Header = require('./Header.react');
 var MainSection = require('./MainSection.react');
+var InstructionSection = require('./InstructionSection.react');
 var PaymentStore = require('../stores/PaymentStore');
 
 var CURRENT_YEAR = 2015;
@@ -29884,10 +29941,9 @@ var MaidControlApp = React.createClass({displayName: "MaidControlApp",
 });
 
 module.exports = MaidControlApp;
-},{"../stores/PaymentStore":173,"./Header.react":167,"./MainSection.react":169,"react":163}],169:[function(require,module,exports){
+},{"../stores/PaymentStore":174,"./Header.react":167,"./InstructionSection.react":168,"./MainSection.react":170,"react":163}],170:[function(require,module,exports){
 var React = require('react');
 var ReactPropTypes = React.PropTypes;
-var PaymentActions = require('../actions/PaymentActions');
 var PersonItem = require('./PersonItem.react');
 
 var MainSection = React.createClass({displayName: "MainSection",
@@ -29919,7 +29975,7 @@ var MainSection = React.createClass({displayName: "MainSection",
 });
 
 module.exports = MainSection;
-},{"../actions/PaymentActions":164,"./PersonItem.react":170,"react":163}],170:[function(require,module,exports){
+},{"./PersonItem.react":171,"react":163}],171:[function(require,module,exports){
 var React = require('react');
 var ReactPropTypes = React.PropTypes;
 
@@ -29991,7 +30047,7 @@ var PersonItem = React.createClass({displayName: "PersonItem",
 });
 
 module.exports = PersonItem;
-},{"../actions/PaymentActions":164,"jquery":6,"react":163}],171:[function(require,module,exports){
+},{"../actions/PaymentActions":164,"jquery":6,"react":163}],172:[function(require,module,exports){
 var keyMirror = require('keymirror');
 
 module.exports = keyMirror({
@@ -30000,11 +30056,11 @@ module.exports = keyMirror({
   PAYMENT_UNDO: null,
   PAYMENT_CREATE_MONTH: null
 });
-},{"keymirror":7}],172:[function(require,module,exports){
+},{"keymirror":7}],173:[function(require,module,exports){
 var Dispatcher = require('flux').Dispatcher;
 
 module.exports = new Dispatcher();
-},{"flux":1}],173:[function(require,module,exports){
+},{"flux":1}],174:[function(require,module,exports){
 var EventEmitter = require('events').EventEmitter;
 
 var AppDispatcher = require('../dispatcher/AppDispatcher');
@@ -30177,4 +30233,4 @@ AppDispatcher.register(function(action) {
 
 module.exports = PaymentStore;
 
-},{"../constants/PaymentConstants":171,"../dispatcher/AppDispatcher":172,"events":4,"object-assign":8}]},{},[165]);
+},{"../constants/PaymentConstants":172,"../dispatcher/AppDispatcher":173,"events":4,"object-assign":8}]},{},[165]);

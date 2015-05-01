@@ -40,6 +40,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   
   grunt.registerTask('default', ['browserify', 'uglify', 'express:background', 'watch']);
+  grunt.registerTask('dev', ['browserify', 'express:background', 'watch']);
   grunt.registerTask('travis', ['browserify', 'uglify']);
 
 }

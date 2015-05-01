@@ -1,6 +1,5 @@
 var React = require('react');
 var ReactPropTypes = React.PropTypes;
-var PaymentActions = require('../actions/PaymentActions');
 var PersonItem = require('./PersonItem.react');
 
 var MainSection = React.createClass({

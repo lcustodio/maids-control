@@ -2,6 +2,7 @@ var React = require('react');
 
 var Header = require('./Header.react');
 var MainSection = require('./MainSection.react');
+var InstructionSection = require('./InstructionSection.react');
 var PaymentStore = require('../stores/PaymentStore');
 
 var CURRENT_YEAR = 2015;
