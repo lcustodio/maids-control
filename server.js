@@ -1,8 +1,9 @@
 var express = require('express');
 var path = require('path');
-var app = express();
-var fs = require('fs');
 var bodyParser = require('body-parser');
+var fs = require('fs');
+
+var app = express();
 
 app.use('/', express.static(path.join(__dirname, 'public')));
 app.use('/bower_components', express.static(__dirname + '/bower_components'));
