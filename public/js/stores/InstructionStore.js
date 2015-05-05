@@ -1,38 +1,52 @@
 var EventEmitter = require('events').EventEmitter;
 
 var AppDispatcher = require('../dispatcher/AppDispatcher');
-var PaymentConstants = require('../constants/PaymentConstants');
+var Constants = require('../constants/Constants');
 var assign = require('object-assign');
 
-var CURRENT_YEAR = 2015;
+var $ = require('jquery');
 
 var CHANGE_EVENT = 'change';
 
+var _instructions;
 
-function saveInstructions(){
-  
+function saveInstructions (text) {
+  $.ajax({
+      url: 'instructions',
+      contentType: 'text/plain',
+      dataType: 'text',
+      type: 'POST',
+      data: text,
+      success: function(data) {
+          _instructions = data;
+          InstructionStore.emitChange();
+      }.bind(this),
+      error: function(xhr, status, err) {
+          console.error('Error saving instructions', status, err.toString());
+      }.bind(this)
+  });
 }
 
 var InstructionStore = assign({}, EventEmitter.prototype, {
 
-  /**
-   * Get all the payment data
-   * @return {object}
-   */
+
   getInstructions: function() {
+    return _instructions;
+  },
+
+  loadInstructions: function() {
     $.ajax({
         url: 'instructions',
         contentType: 'text/plain',
         dataType: 'text',
         success: function(data) {
-            _instructions = data;
-            emit(CHANGE_EVENT);
+          _instructions = data;
+          this.emitChange();
         }.bind(this),
         error: function(xhr, status, err) {
             console.error('instructions', status, err.toString());
         }.bind(this)
     });
-    return _payments;
   },
 
   emitChange: function() {
@@ -56,22 +70,18 @@ var InstructionStore = assign({}, EventEmitter.prototype, {
 
 // Register callback to handle all updates
 AppDispatcher.register(function(action) {
-  var month;
-  var person;
-  var value;
+  var text;
 
   switch(action.actionType) {
-    case Constants.PAYMENT_CREATE_MONTH:
-      month = action.month.trim();
-      if (month !== '') {
-        saveInstructions(month);
-        PaymentStore.emitChange();
+    case Constants.INSTRUCTIONS_SAVE:
+      text = action.text;
+      if (text) {
+        saveInstructions(text);
       }
       break;
 
     default:
-      // no op
   }
 });
 
-module.exports = PaymentStore;
+module.exports = InstructionStore;
