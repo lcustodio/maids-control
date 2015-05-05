@@ -29666,7 +29666,25 @@ module.exports = require('./lib/React');
 
 },{"./lib/React":36}],164:[function(require,module,exports){
 var AppDispatcher = require('../dispatcher/AppDispatcher');
-var PaymentConstants = require('../constants/PaymentConstants');
+var Constants = require('../constants/Constants');
+
+var InstructionActions = {
+  /**
+   * @param  {string} text
+   */
+  saveInstructions: function(text) {
+    AppDispatcher.dispatch({
+      actionType: Constants.INSTRUCTIONS_SAVE,
+      text: text
+    });
+  }
+};
+
+module.exports = InstructionActions;
+
+},{"../constants/Constants":173,"../dispatcher/AppDispatcher":174}],165:[function(require,module,exports){
+var AppDispatcher = require('../dispatcher/AppDispatcher');
+var Constants = require('../constants/Constants');
 
 var PaymentActions = {
   /**
@@ -29674,7 +29692,7 @@ var PaymentActions = {
    */
   createMonthData: function(month) {
     AppDispatcher.dispatch({
-      actionType: PaymentConstants.PAYMENT_CREATE_MONTH,
+      actionType: Constants.PAYMENT_CREATE_MONTH,
       month: month
     });
   },
@@ -29686,7 +29704,7 @@ var PaymentActions = {
    */
   updatePayment: function(month, person, valueToAdd) {
     AppDispatcher.dispatch({
-      actionType: PaymentConstants.PAYMENT_UPDATE,
+      actionType: Constants.PAYMENT_UPDATE,
       month: month,
       person: person,
       valueToAdd: valueToAdd
@@ -29700,7 +29718,7 @@ var PaymentActions = {
    */
   addToTotal: function(month, person, valueToAdd) {
     AppDispatcher.dispatch({
-      actionType: PaymentConstants.PAYMENT_ADD,
+      actionType: Constants.PAYMENT_ADD,
       month: month,
       person: person,
       valueToAdd: valueToAdd
@@ -29712,7 +29730,7 @@ var PaymentActions = {
    */
   undoChange: function(month, person) {
     AppDispatcher.dispatch({
-      actionType: PaymentConstants.PAYMENT_UNDO,
+      actionType: Constants.PAYMENT_UNDO,
       month: month,
       person: person
     });
@@ -29721,7 +29739,7 @@ var PaymentActions = {
 
 module.exports = PaymentActions;
 
-},{"../constants/PaymentConstants":172,"../dispatcher/AppDispatcher":173}],165:[function(require,module,exports){
+},{"../constants/Constants":173,"../dispatcher/AppDispatcher":174}],166:[function(require,module,exports){
 /**
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -29745,7 +29763,7 @@ React.render(
   	React.createElement(InstructionSection, null),
   	document.getElementById('instructions')
 );
-},{"./components/InstructionSection.react":168,"./components/MaidControlApp.react":169,"react":163}],166:[function(require,module,exports){
+},{"./components/InstructionSection.react":169,"./components/MaidControlApp.react":170,"react":163}],167:[function(require,module,exports){
 var React = require('react');
 var ReactPropTypes = React.PropTypes;
 
@@ -29782,7 +29800,7 @@ var ComboMonth = React.createClass({displayName: "ComboMonth",
 });
 
 module.exports = ComboMonth;
-},{"react":163}],167:[function(require,module,exports){
+},{"react":163}],168:[function(require,module,exports){
 var React = require('react');
 var PaymentActions = require('../actions/PaymentActions');
 var ComboMonth = require('./ComboMonth.react');
@@ -29825,57 +29843,41 @@ var Header = React.createClass({displayName: "Header",
 });
 
 module.exports = Header;
-},{"../actions/PaymentActions":164,"./ComboMonth.react":166,"react":163}],168:[function(require,module,exports){
+},{"../actions/PaymentActions":165,"./ComboMonth.react":167,"react":163}],169:[function(require,module,exports){
 var React = require('react');
-var $ = require('jquery');
+var InstructionActions = require('../actions/InstructionActions');
+var InstructionStore = require('../stores/InstructionStore');
 
 var InstructionSection = React.createClass({displayName: "InstructionSection",
     render: function() {
         return (
             React.createElement("div", {className: "instructions_components"}, 
                 React.createElement("h5", null, "Instructions:"), 
-                React.createElement("textarea", {type: "text", ref: "instructions", onChange: this.handleChange, value: this.state.instructions}), 
+                React.createElement("textarea", {type: "text", ref: "instructions", onChange: this._handleChange, value: this.state.instructions}), 
                 React.createElement("button", {onClick: this._onSaveInstructions}, "Save")
             )
         );
     },
-    getInitialState: function (){
-        $.ajax({
-            url: 'instructions',
-            contentType: 'text/plain',
-            dataType: 'text',
-            success: function(data) {
-                this.setState({instructions: data});
-            }.bind(this),
-            error: function(xhr, status, err) {
-                console.error('instructions', status, err.toString());
-            }.bind(this)
-        });
-        return { instructions : "" };
+    componentDidMount: function () {
+        InstructionStore.loadInstructions();
+        InstructionStore.addChangeListener(this._onChange);
+    },
+    getInitialState: function () {
+        return { instructions : InstructionStore.getInstructions() };
     },
     _onSaveInstructions: function() {
-        $.ajax({
-            url: 'instructions',
-            contentType: 'text/plain',
-            dataType: 'text',
-            type: 'POST',
-            data: this.refs.instructions.getDOMNode().value,
-            success: function(data) {
-                console.log(data)
-                this.setState({instructions: data});
-            }.bind(this),
-            error: function(xhr, status, err) {
-                console.error('instructions', status, err.toString());
-            }.bind(this)
-        });
+        InstructionActions.saveInstructions(this.refs.instructions.getDOMNode().value);
     },
-    handleChange: function() {
-        this.setState({instructions: this.refs.instructions.getDOMNode().value});
+    _onChange: function() {
+        this.setState({ instructions : InstructionStore.getInstructions() });
+    },
+    _handleChange: function() {
+        this.setState({ instructions : this.refs.instructions.getDOMNode().value });
     }
 });
 
 module.exports = InstructionSection;
-},{"jquery":6,"react":163}],169:[function(require,module,exports){
+},{"../actions/InstructionActions":164,"../stores/InstructionStore":175,"react":163}],170:[function(require,module,exports){
 var React = require('react');
 
 var Header = require('./Header.react');
@@ -29941,7 +29943,7 @@ var MaidControlApp = React.createClass({displayName: "MaidControlApp",
 });
 
 module.exports = MaidControlApp;
-},{"../stores/PaymentStore":174,"./Header.react":167,"./InstructionSection.react":168,"./MainSection.react":170,"react":163}],170:[function(require,module,exports){
+},{"../stores/PaymentStore":176,"./Header.react":168,"./InstructionSection.react":169,"./MainSection.react":171,"react":163}],171:[function(require,module,exports){
 var React = require('react');
 var ReactPropTypes = React.PropTypes;
 var PersonItem = require('./PersonItem.react');
@@ -29962,7 +29964,7 @@ var MainSection = React.createClass({displayName: "MainSection",
     var personPayments = []; 
     
     for (var key in this.props.payments) {
-      personPayments.push( React.createElement(PersonItem, {id: key, data: this.props.payments[key], month: this.props.selectedMonth}));
+      personPayments.push( React.createElement(PersonItem, {key: key, id: key, data: this.props.payments[key], month: this.props.selectedMonth}));
     }
 
     return (
@@ -29975,7 +29977,7 @@ var MainSection = React.createClass({displayName: "MainSection",
 });
 
 module.exports = MainSection;
-},{"./PersonItem.react":171,"react":163}],171:[function(require,module,exports){
+},{"./PersonItem.react":172,"react":163}],172:[function(require,module,exports){
 var React = require('react');
 var ReactPropTypes = React.PropTypes;
 
@@ -30047,49 +30049,137 @@ var PersonItem = React.createClass({displayName: "PersonItem",
 });
 
 module.exports = PersonItem;
-},{"../actions/PaymentActions":164,"jquery":6,"react":163}],172:[function(require,module,exports){
+},{"../actions/PaymentActions":165,"jquery":6,"react":163}],173:[function(require,module,exports){
 var keyMirror = require('keymirror');
 
 module.exports = keyMirror({
   PAYMENT_ADD: null,
   PAYMENT_UPDATE: null,
   PAYMENT_UNDO: null,
-  PAYMENT_CREATE_MONTH: null
+  PAYMENT_CREATE_MONTH: null,
+  INSTRUCTIONS_SAVE: null
 });
-},{"keymirror":7}],173:[function(require,module,exports){
+},{"keymirror":7}],174:[function(require,module,exports){
 var Dispatcher = require('flux').Dispatcher;
 
 module.exports = new Dispatcher();
-},{"flux":1}],174:[function(require,module,exports){
+},{"flux":1}],175:[function(require,module,exports){
 var EventEmitter = require('events').EventEmitter;
 
 var AppDispatcher = require('../dispatcher/AppDispatcher');
-var PaymentConstants = require('../constants/PaymentConstants');
+var Constants = require('../constants/Constants');
 var assign = require('object-assign');
 
-var CURRENT_YEAR = 2015;
+var $ = require('jquery');
 
 var CHANGE_EVENT = 'change';
 
-var _payments = {
-    201504: {
-          joao: {
-              initial: 'J',
-              totalPaid : 174,
-              lastTotal : 0
-          },
-          mari: {
-              initial: 'M',
-              totalPaid : 174,
-              lastTotal : 0
-          },
-          deh: {
-              initial: 'D',
-              totalPaid : 174,
-              lastTotal : 0
-          }
-     }
-};
+var _instructions;
+
+function saveInstructions (text) {
+  $.ajax({
+      url: 'instructions',
+      contentType: 'text/plain',
+      dataType: 'text',
+      type: 'POST',
+      data: text,
+      success: function(data) {
+          _instructions = data;
+          InstructionStore.emitChange();
+      }.bind(this),
+      error: function(xhr, status, err) {
+          console.error('Error saving instructions', status, err.toString());
+      }.bind(this)
+  });
+}
+
+var InstructionStore = assign({}, EventEmitter.prototype, {
+
+
+  getInstructions: function() {
+    return _instructions;
+  },
+
+  loadInstructions: function() {
+    $.ajax({
+        url: 'instructions',
+        contentType: 'text/plain',
+        dataType: 'text',
+        success: function(data) {
+          _instructions = data;
+          this.emitChange();
+        }.bind(this),
+        error: function(xhr, status, err) {
+            console.error('instructions', status, err.toString());
+        }.bind(this)
+    });
+  },
+
+  emitChange: function() {
+    this.emit(CHANGE_EVENT);
+  },
+
+  /**
+   * @param {function} callback
+   */
+  addChangeListener: function(callback) {
+    this.on(CHANGE_EVENT, callback);
+  },
+
+  /**
+   * @param {function} callback
+   */
+  removeChangeListener: function(callback) {
+    this.removeListener(CHANGE_EVENT, callback);
+  }
+});
+
+// Register callback to handle all updates
+AppDispatcher.register(function(action) {
+  var text;
+
+  switch(action.actionType) {
+    case Constants.INSTRUCTIONS_SAVE:
+      text = action.text;
+      if (text) {
+        saveInstructions(text);
+      }
+      break;
+
+    default:
+  }
+});
+
+module.exports = InstructionStore;
+
+},{"../constants/Constants":173,"../dispatcher/AppDispatcher":174,"events":4,"jquery":6,"object-assign":8}],176:[function(require,module,exports){
+var EventEmitter = require('events').EventEmitter;
+
+var AppDispatcher = require('../dispatcher/AppDispatcher');
+var Constants = require('../constants/Constants');
+var assign = require('object-assign');
+
+var CURRENT_YEAR = 2015;
+var CHANGE_EVENT = 'change';
+
+var $ = require('jquery');
+
+var _payments = {};
+var _monthsmax = {};
+
+/** 
+ * Loading monthsmax right on the Store creation 
+ */
+$.ajax({
+    url: 'monthsmax',
+    dataType: 'json',
+    success: function(data) {
+      _monthsmax = data[0];
+    }.bind(this),
+    error: function(xhr, status, err) {
+      console.error('monthsmax', status, err.toString());
+    }.bind(this)
+});
 
 /**
  * Create a new month in data structure
@@ -30099,6 +30189,7 @@ function createMonthData(month) {
   var structuredMonth = CURRENT_YEAR + "" + month;
   var defaultObject = {joao: {initial: 'J', totalPaid : 0, lastTotal : 0}, mari: {initial: 'M', totalPaid : 0, lastTotal : 0}, deh: {initial: 'D', totalPaid : 0, lastTotal : 0}};
   _payments[structuredMonth] = defaultObject;
+  savePayments();
 }
 
 /**
@@ -30114,6 +30205,7 @@ function updatePayment(month, person, value) {
   var structuredMonth = CURRENT_YEAR + "" + month;
   _payments[structuredMonth][person].lastTotal = _payments[structuredMonth][person].totalPaid;
   _payments[structuredMonth][person].totalPaid = value;
+  savePayments();
 }
 
 /**
@@ -30128,8 +30220,20 @@ function addToTotal(month, person, valueToAdd) {
   }
   console.log(valueToAdd);
   var structuredMonth = CURRENT_YEAR + "" + month;
-  _payments[structuredMonth][person].lastTotal = _payments[structuredMonth][person].totalPaid;
-  _payments[structuredMonth][person].totalPaid = parseInt(_payments[structuredMonth][person].totalPaid) + parseInt(valueToAdd);
+  console.log(_monthsmax[structuredMonth]);
+  var addition = parseInt(_payments[structuredMonth][person].totalPaid) + parseInt(valueToAdd);
+  if(_monthsmax[structuredMonth].maxPayment >= addition) {
+    _payments[structuredMonth][person].lastTotal = _payments[structuredMonth][person].totalPaid;
+    _payments[structuredMonth][person].totalPaid = addition;
+    savePayments();
+  } else {
+    var valueToAddNextMonth = addition - _monthsmax[structuredMonth].maxPayment;
+    _payments[structuredMonth][person].lastTotal = _payments[structuredMonth][person].totalPaid;
+    _payments[structuredMonth][person].totalPaid = _monthsmax[structuredMonth].maxPayment;
+    savePayments();
+    var nextMonth = parseInt(month) + 1;
+    addToTotal("0" + nextMonth, person, valueToAddNextMonth);
+  }
 }
 
 /**
@@ -30142,16 +30246,49 @@ function undoChange(month, person) {
   var totalPaid = _payments[structuredMonth][person].totalPaid
   _payments[structuredMonth][person].totalPaid = _payments[structuredMonth][person].lastTotal;
   _payments[structuredMonth][person].lastTotal = totalPaid;
+  savePayments();
 }
 
+function savePayments() {
+  $.ajax({
+      url: 'payments',
+      dataType: 'json',
+      type: 'POST',
+      data: _payments,
+      success: function(data) {
+        PaymentStore.emitChange();
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error('payments', status, err.toString());
+      }.bind(this)
+  });
+}
 
 var PaymentStore = assign({}, EventEmitter.prototype, {
-
+  
   /**
    * Get all the payment data
    * @return {object}
    */
+  loadPayments: function() {
+    $.ajax({
+      url: 'payments',
+      dataType: 'json',
+      success: function(data) {
+        _payments = data[0];
+        this.emitChange();
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error('payments', status, err.toString());
+      }.bind(this)
+    });
+  },
+
   getAll: function() {
+    if(!_payments || $.isEmptyObject(_payments)) {
+      console.log("Payments not loaded yet. Loading payments...");
+      this.loadPayments();
+    }
     return _payments;
   },
 
@@ -30190,39 +30327,35 @@ AppDispatcher.register(function(action) {
   var value;
 
   switch(action.actionType) {
-    case PaymentConstants.PAYMENT_CREATE_MONTH:
+    case Constants.PAYMENT_CREATE_MONTH:
       month = action.month.trim();
       if (month !== '') {
         createMonthData(month);
-        PaymentStore.emitChange();
       }
       break;
 
-    case PaymentConstants.PAYMENT_UPDATE:
+    case Constants.PAYMENT_UPDATE:
       month = action.month.trim();
       person = action.person.trim();
       value = action.value.trim();
       if (month !== '') {
 	    	updatePayment(month, person, value);
-	    	PaymentStore.emitChange();
   	  }
       break;
 
-    case PaymentConstants.PAYMENT_ADD:
+    case Constants.PAYMENT_ADD:
       month = action.month.trim();
       person = action.person.trim();
       value = action.valueToAdd;
       if (month !== '') {
 	    	addToTotal(month, person, value);
-	    	PaymentStore.emitChange();
   	  }
       break;
 
-    case PaymentConstants.PAYMENT_UNDO:
+    case Constants.PAYMENT_UNDO:
       month = action.month.trim();
       if (month !== '') {
         undoChange(month);
-        PaymentStore.emitChange();
       }
       break;
 
@@ -30233,4 +30366,4 @@ AppDispatcher.register(function(action) {
 
 module.exports = PaymentStore;
 
-},{"../constants/PaymentConstants":172,"../dispatcher/AppDispatcher":173,"events":4,"object-assign":8}]},{},[165]);
+},{"../constants/Constants":173,"../dispatcher/AppDispatcher":174,"events":4,"jquery":6,"object-assign":8}]},{},[166]);

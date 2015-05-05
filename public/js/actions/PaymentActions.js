@@ -1,5 +1,5 @@
 var AppDispatcher = require('../dispatcher/AppDispatcher');
-var PaymentConstants = require('../constants/PaymentConstants');
+var Constants = require('../constants/Constants');
 
 var PaymentActions = {
   /**
@@ -7,7 +7,7 @@ var PaymentActions = {
    */
   createMonthData: function(month) {
     AppDispatcher.dispatch({
-      actionType: PaymentConstants.PAYMENT_CREATE_MONTH,
+      actionType: Constants.PAYMENT_CREATE_MONTH,
       month: month
     });
   },
@@ -19,7 +19,7 @@ var PaymentActions = {
    */
   updatePayment: function(month, person, valueToAdd) {
     AppDispatcher.dispatch({
-      actionType: PaymentConstants.PAYMENT_UPDATE,
+      actionType: Constants.PAYMENT_UPDATE,
       month: month,
       person: person,
       valueToAdd: valueToAdd
@@ -33,7 +33,7 @@ var PaymentActions = {
    */
   addToTotal: function(month, person, valueToAdd) {
     AppDispatcher.dispatch({
-      actionType: PaymentConstants.PAYMENT_ADD,
+      actionType: Constants.PAYMENT_ADD,
       month: month,
       person: person,
       valueToAdd: valueToAdd
@@ -45,7 +45,7 @@ var PaymentActions = {
    */
   undoChange: function(month, person) {
     AppDispatcher.dispatch({
-      actionType: PaymentConstants.PAYMENT_UNDO,
+      actionType: Constants.PAYMENT_UNDO,
       month: month,
       person: person
     });

@@ -18,7 +18,7 @@ var MainSection = React.createClass({
     var personPayments = []; 
     
     for (var key in this.props.payments) {
-      personPayments.push( <PersonItem id={key} data={this.props.payments[key]} month={this.props.selectedMonth}/>);
+      personPayments.push( <PersonItem key={key} id={key} data={this.props.payments[key]} month={this.props.selectedMonth}/>);
     }
 
     return (
