@@ -20,6 +20,8 @@ var ComboMonth = React.createClass({
             <option value="04">April</option>
             <option value="05">May</option>
             <option value="06">June</option>
+            <option value="07">July</option>
+            <option value="08">August</option>
           </select> 
         </div>
       </div>
