@@ -9,13 +9,15 @@ var app = express();
 
 var MongoClient = require('mongodb').MongoClient;
 
-// Connect to the db
-MongoClient.connect("mongodb://localhost:27017/maids", function(err, db) {
+var dburi = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/maids';
+
+MongoClient.connect(dburi, function(err, db) {
   if(!err) {
     console.log("Connected to mongodb...");
+    instructions.init(db);
+    payments.init(db);
   }
 });
-
 
 /* Creating a text parser */
 var textParser = bodyParser.text({ type: 'text/plain' });

@@ -1,20 +1,13 @@
 var fs = require('fs');
-var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
-
-var collection;
-
-MongoClient.connect("mongodb://localhost:27017/maids", function(err, db) {
-  if(!err) {
-    console.log("Connected to mongodb...");
-  }
-
-  collection = db.collection('payments');
-});
+var db;
 
 var _paymentsData;
 
 var payments = {
+	init: function (database) {
+		db = database;
+	},
 	getPayments: function(req, res) {
 		fs.readFile('data.json', function(err, data) {
 			_paymentsData = data;

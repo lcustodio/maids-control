@@ -1,19 +1,13 @@
 var fs = require('fs');
-var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
-
-var collection;
-
-MongoClient.connect("mongodb://localhost:27017/maids", function(err, db) {
-  if(!err) {
-    console.log("Connected to mongodb...");
-  }
-
-  collection = db.collection('instructions');
-});
+var db;
 
 var instructions = {
+	init: function (database) {
+		db = database;
+	},
 	readInstructions: function(req, res) {
+		var collection = db.collection('instructions');
 		collection.find({}).toArray(function(err, instructions) {
 		    assert.equal(err, null);
 		    console.log("Found the following records");
@@ -26,6 +20,7 @@ var instructions = {
 		});
 	},
 	saveInstructions: function(req, res) {
+		var collection = db.collection('instructions');
 		collection.find({}).toArray(function(err, instructions) {
 		    assert.equal(err, null);
 		    if(instructions && instructions.length > 0) {
