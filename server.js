@@ -7,6 +7,16 @@ var payments = require('./src/payments');
 
 var app = express();
 
+var MongoClient = require('mongodb').MongoClient;
+
+// Connect to the db
+MongoClient.connect("mongodb://localhost:27017/maids", function(err, db) {
+  if(!err) {
+    console.log("Connected to mongodb...");
+  }
+});
+
+
 /* Creating a text parser */
 var textParser = bodyParser.text({ type: 'text/plain' });
 /* Creating a json parser */

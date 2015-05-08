@@ -9,6 +9,7 @@
     "express": "^4.12.3",
     "flux": "^2.0.1",
     "keymirror": "~0.1.0",
+    "mongodb": "^2.0.30",
     "object-assign": "^1.0.0",
     "react": "^0.13.0"
   },
