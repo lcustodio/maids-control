@@ -11,7 +11,6 @@ var instructions = {
 		collection.find({}).toArray(function(err, instructions) {
 		    assert.equal(err, null);
 		    console.log("Found the following records");
-		    console.dir(instructions);
 		    if(instructions && instructions.length > 0) {
 			    res.setHeader('Content-Type', 'text/plain');
 				res.setHeader('Data-Type', 'text');

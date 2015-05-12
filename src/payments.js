@@ -4,27 +4,50 @@ var db;
 
 var _paymentsData;
 
+var insertEmptyData = function(req, res) {
+	var collection = db.collection('payments');
+	fs.readFile('data.backup.json', function(err, data) {
+	    collection.insert({ dummy : 0, data: data }, function(err, result) {
+		    assert.equal(err, null);
+		    console.log("Inserted empty payments data");
+		    res.setHeader('Content-Type', 'application/json');
+	    	res.send(data);
+		});
+	});
+}
+
 var payments = {
 	init: function (database) {
 		db = database;
 	},
 	getPayments: function(req, res) {
-		fs.readFile('data.json', function(err, data) {
-			_paymentsData = data;
-		    res.setHeader('Content-Type', 'application/json');
-		    res.send(data);
+		var collection = db.collection('payments');
+		collection.find({}).toArray(function(err, payments) {
+		    assert.equal(err, null);
+		    console.log("Found the following records");
+		    if(payments && payments.length > 0) {
+			    res.setHeader('Content-Type', 'application/json');
+				res.send(payments[0].data);
+			} else {
+				insertEmptyData(req, res);
+			}
 		});
 	},
 	savePayments: function(req, res) {
-		var paymentsAsString = "[" + JSON.stringify(req.body) + "]"
-		fs.writeFile('data.json', paymentsAsString, function(err) {
-			console.log(req.body);
-			_paymentsData = req.body;
-			res.setHeader('Content-Type', 'application/json');
-			res.setHeader('Cache-Control', 'no-cache');
-			res.send(req.body);
-
-	    });
+		var collection = db.collection('payments');
+		collection.find({}).toArray(function(err, payments) {
+		    assert.equal(err, null);
+		    if(payments && payments.length > 0) {
+		    	collection.update({ dummy : 0 }, { $set: { data : [ req.body ] }}, function(err, result) {
+				    assert.equal(err, null);
+				    console.log("Updated payments.");
+				    res.setHeader('Content-Type', 'application/json');
+			  		res.send(req.body);
+				});
+		    } else {
+		    	insertEmptyData(req, res);
+		    }
+		});
 	},
 	monthsmax: function(req, res) {
 		fs.readFile('months-max.json', function(err, data) {
