@@ -165,8 +165,8 @@ body {
 	}
 
 	.add_input {
-		height: 140px;
-		width: 140px;
+		height: 125px;
+		width: 13%;
 		float: left;
 		font-size: 60px;
 	}
@@ -217,7 +217,7 @@ body {
 	}
 
 	.progressBar {
-	    width: 54%;
+	    width: 51%;
 	    height: 140px;
 	}
 
