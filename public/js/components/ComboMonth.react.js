@@ -15,13 +15,13 @@ var ComboMonth = React.createClass({
     return (
       <div className="row">
           <div className="twelve columns text-center">
-          <select onChange={this._onSelectMonth}>
-            <option value="-1">Select month...</option>
-            <option value="04">April</option>
-            <option value="05">May</option>
-            <option value="06">June</option>
-            <option value="07">July</option>
-            <option value="08">August</option>
+          <select className="combomonth" onChange={this._onSelectMonth}>
+              <option value="-1">Select month...</option>
+              <option value="04">April</option>
+              <option value="05">May</option>
+              <option value="06">June</option>
+              <option value="07">July</option>
+              <option value="08">August</option>
           </select> 
         </div>
       </div>

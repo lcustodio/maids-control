@@ -29781,13 +29781,13 @@ var ComboMonth = React.createClass({displayName: "ComboMonth",
     return (
       React.createElement("div", {className: "row"}, 
           React.createElement("div", {className: "twelve columns text-center"}, 
-          React.createElement("select", {onChange: this._onSelectMonth}, 
-            React.createElement("option", {value: "-1"}, "Select month..."), 
-            React.createElement("option", {value: "04"}, "April"), 
-            React.createElement("option", {value: "05"}, "May"), 
-            React.createElement("option", {value: "06"}, "June"), 
-            React.createElement("option", {value: "07"}, "July"), 
-            React.createElement("option", {value: "08"}, "August")
+          React.createElement("select", {className: "combomonth", onChange: this._onSelectMonth}, 
+              React.createElement("option", {value: "-1"}, "Select month..."), 
+              React.createElement("option", {value: "04"}, "April"), 
+              React.createElement("option", {value: "05"}, "May"), 
+              React.createElement("option", {value: "06"}, "June"), 
+              React.createElement("option", {value: "07"}, "July"), 
+              React.createElement("option", {value: "08"}, "August")
           )
         )
       )
