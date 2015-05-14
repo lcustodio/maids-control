@@ -4,3 +4,5 @@ A system based in ReactJS and NodeJS to control payments and message panel for c
 
 This system is strictly for author's self instruction. 
 Author is not responsible for reproduction.
+
+Powered by Grunt, NodeJS and ReactJS
