@@ -4,4 +4,6 @@ A system based in ReactJS and NodeJS to control payments and message panel for c
 
 This system is strictly for author's self instruction. 
 
-Powered by Grunt, NodeJS and ReactJS
+Powered by Grunt, NodeJS and ReactJS.
+
+Demo: maids-control.herokuapp.com
