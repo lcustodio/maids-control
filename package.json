@@ -1,7 +1,7 @@
 {
   "name": "maids-control",
   "version": "0.0.1",
-  "description": "Controlling payments and maid's TODO list.",
+  "description": "Controlling maid's payments and instructions.",
   "repository": "https://github.com/jvmartins/maids-control.git",
   "main": "js/app.js",
   "dependencies": {

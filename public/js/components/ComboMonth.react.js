@@ -8,10 +8,7 @@ var ComboMonth = React.createClass({
     onSelectMonth: ReactPropTypes.func.isRequired
   },
 
-  /**
-   * @return {object}
-   */
-  render: function() /*object*/ {
+  render: function() {
     return (
       <div className="row">
           <div className="twelve columns text-center">
@@ -22,6 +19,7 @@ var ComboMonth = React.createClass({
               <option value="06">June</option>
               <option value="07">July</option>
               <option value="08">August</option>
+              <option value="09">September</option>
           </select> 
         </div>
       </div>
