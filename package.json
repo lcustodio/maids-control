@@ -11,7 +11,12 @@
     "keymirror": "~0.1.0",
     "mongodb": "^2.0.30",
     "object-assign": "^1.0.0",
-    "react": "^0.13.0"
+    "react": "^0.13.0",
+    "react-tools": "^0.13.0"
+  },
+  "jest": {
+    "scriptPreprocessor": "/public/js/tests/preprocessor.js",
+    "unmockedModulePathPatterns": ["/node_modules/react"]
   },
   "devDependencies": {
     "browserify": "^6.2.0",
